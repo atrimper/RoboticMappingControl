@@ -1,0 +1,1 @@
+This directory holds the code for the PC Side code. USE VISUAL STUDIO 2015 FOR THIS PROJECT.
