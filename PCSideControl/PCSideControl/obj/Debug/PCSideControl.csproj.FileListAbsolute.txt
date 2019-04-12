@@ -1,1 +1,10 @@
 C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\gui\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe.config
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe.config
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\bin\Debug\PCSideControl.pdb
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.csprojResolveAssemblyReference.cache
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.Form1.resources
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.Properties.Resources.resources
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.csproj.GenerateResource.Cache
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.exe
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.pdb
