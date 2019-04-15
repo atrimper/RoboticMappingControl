@@ -1,10 +1,13 @@
 #include "mbed.h"
+#include "globals.h"
 #include "DataDistributor.h"
 #include "RobotController.h"
 
-extern Serial pc(USBTX, USBRX);
+Serial pc(USBTX, USBRX);
+DigitalIn pb(p26);
 
 int main() {
+    pb.mode(PullUp);
     DataDistributor dataDistributor;
     RobotController robotController(p21, p15, p16, p22, p18, p19, p17, p20);
 
