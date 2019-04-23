@@ -1,10 +1,13 @@
 #ifndef ROBOT_CONTROLLER_H
 #define ROBOT_CONTROLLER_H
 
-#include "mbed.h"
+#include "globals.h"
 #include "Motor.h"
 #include "HALLFX_ENCODER.h"
-#include "LSM9DS1.h"
+#include "XNucleo53L0A1.h"
+
+#define COUNTPERIN 75.029 ///< Encoder counts 192 every 65 mm of wheel rotation
+#define COUNTPERDEG 1.21 ///< Encoder counts 2.42 every 1 deg of body rotation
 
 /**
  * Robot Controller class.
@@ -19,31 +22,22 @@ class RobotController {
          * @param rightWheelPwm mbed pin transmitting speed to right motor driver
          * @param rightWheelFwd mbed pin transmitting forward direction to right motor driver
          * @param rightWheelRev mbed pin transmitting reverse direction to right motor driver
-         * @param leftEncoderIn mbed pin receiving rotation count from left encoder
-         * @param rightEncoderIn mbed pin receiving rotation count from right encoder
+         * @param leftEncoder mbed pin receiving rotation count from left encoder
+         * @param rightEncoder mbed pin receiving rotation count from right encoder
          */
         RobotController(PinName leftWheelPwm, PinName leftWheelFwd,
             PinName leftWheelRev, PinName rightWheelPwm, PinName rightWheelFwd,
-            PinName rightWheelRev, PinName leftEncoderIn, PinName rightEncoderIn);
+            PinName rightWheelRev, PinName leftEncoder, PinName rightEncoder);
     
         /**
          * Detect obstacles in 360-degree field of view around the robot.
-         * @return angle-distance pairs of obstacles
          */
-        float* obstacleDetection();
+        void detectObstacles();
 
         /**
          * Follow trajectory set by user in C# GUI.
-         * @param trajectory angle-distance vectors
          */
-        void followTrajectory(float* trajectory);
-
-        /**
-         * Return to position before following trajectory.
-         * @param trajectory angle-distance vectors
-         */
-        void toOrigin(float* trajectory);
-        // TODO delete trajectory
+        void followTrajectory();
 
     private:
         Motor leftWheel;
