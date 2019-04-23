@@ -11,17 +11,53 @@ using System.Windows.Forms;
 namespace PCSideControl {
     public partial class Form1 : Form {
         Graphics g;
-        int[] arr;
-        int numPoints = 10;
         double angle;
+        LinkedList<Point> moveList;
+
         public Form1() {
             InitializeComponent();
             this.Width = 750;
             this.Height = 500;
+            moveList = new LinkedList<Point>();
+            moveList.AddLast(Defines.mapCenter);
         }
 
         private Rectangle generateCenterPointRectangle(Point center, Size size) {
             return new Rectangle(center.X - size.Width / 2, center.Y - size.Height / 2, size.Width, size.Height);
+        }
+
+        private Point generateMapPoint(double distance, double angle) {
+            int x = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Cos(angle * Math.PI / 180));
+            int y = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Sin(angle * Math.PI / 180));
+            return new Point(x, y);
+        }
+
+        private double pointToPointDistanceFeet(Point a, Point b) {
+            double dx = (b.X - a.X) * (1 / Defines.DISTANCE_TO_PIXELS);
+            double dy = (b.Y - a.Y) * (1 / Defines.DISTANCE_TO_PIXELS);
+            double distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+            return distance;
+        }
+
+        private double pointToPointAngle(Point center, Point point) {
+            double dx = point.X - center.X;
+            double dy = point.Y - center.Y;
+            double angle = 0;
+            if(dx == 0) {
+                if(dy >= 0) {
+                    angle = 0;
+                }
+                else {
+                    angle = 180;
+                }
+            }
+            else {
+                angle = 90 + (180.0 / Math.PI) * Math.Atan(dy / dx);
+                if(dx < 0) {
+                    angle = 180 + angle;
+                }
+            }
+            return angle;
         }
 
         private List<Tuple<double, double>> readMapData() {
@@ -36,11 +72,14 @@ namespace PCSideControl {
             List<Tuple<double, double>> polarCoordinates = readMapData();
             double distance;
             double angle;
-            foreach (Tuple<double, double> t in polarCoordinates) {
+            g.DrawRectangle(Pens.Black, generateCenterPointRectangle(Defines.mapCenter, Defines.mapSize));
+            g.FillRectangle(Brushes.Red, generateCenterPointRectangle(Defines.mapCenter, new Size(Defines.ROBOT_SIZE, Defines.ROBOT_SIZE)));
+            foreach(Tuple<double, double> t in polarCoordinates) {
                 distance = t.Item1;
                 angle = t.Item2;
-                int x = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Cos(angle * Math.PI / 180));
-                int y = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Sin(angle * Math.PI / 180));
+                Point pt = generateMapPoint(distance, angle);
+                int x = pt.X;
+                int y = pt.Y;
                 Point wall = new Point(center.X + x, center.Y + y);
                 if (Math.Abs(x) < Defines.MAP_SIZE / 2 && Math.Abs(y) < Defines.MAP_SIZE / 2) {
                     g.FillRectangle(Brushes.Black, generateCenterPointRectangle(wall, new Size(Defines.DOT_SIZE, Defines.DOT_SIZE)));
@@ -48,37 +87,74 @@ namespace PCSideControl {
             }
         }
 
-        private void print_points(Point center)
-        {
-            angle = 360 / numPoints;
+        private void clearMapArea(Graphics g, Point center, Size size) {
+            g.FillRectangle(new SolidBrush(this.BackColor), generateCenterPointRectangle(center, size));
+        }
 
+        private bool isPointWithinMap(Point center, Size size, Point point) {
+            if(((center.X - (size.Width / 2)) < point.X && point.X < (center.X + (size.Width / 2)))
+                && ((center.Y - (size.Height / 2)) < point.Y && point.Y < (center.Y + (size.Height / 2)))) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        private void drawRobotPath(Graphics g) {
+            LinkedListNode<Point> cur = moveList.First;
+            while(cur != null) {
+                if(cur.Next != null) {
+                    g.DrawLine(Pens.DarkBlue, cur.Value, cur.Next.Value);
+                    g.FillRectangle(Brushes.Red, generateCenterPointRectangle(cur.Next.Value, 
+                        new Size(Defines.WAYPOINT_SIZE, Defines.WAYPOINT_SIZE)));
+                }
+                cur = cur.Next;
+            }
+        }
+
+        private void appendToMoveList(Point movePoint) {
+            if(isPointWithinMap(Defines.mapCenter, Defines.mapSize, movePoint)) {
+                moveList.AddLast(movePoint);
+            }
+        }
+
+        private LinkedList<Tuple<double, double>> moveListToVectorList() {
+            LinkedList<Tuple<double, double>> list = new LinkedList<Tuple<double, double>>();
+            LinkedListNode<Point> cur = moveList.First;
+            double prevAngle = 0.0;
+            while(cur != null) {
+                if(cur.Next != null) {
+                    Point current = cur.Value;
+                    Point next = cur.Next.Value;
+                    double angle = pointToPointAngle(current, next);
+                    double relAngle = angle - prevAngle;
+                    if(relAngle < 0) {
+                        relAngle += 360;
+                    }
+                    double distance = pointToPointDistanceFeet(current, next);
+                    list.AddLast(new Tuple<double, double>(relAngle, distance));
+                    prevAngle = angle;
+                }
+                cur = cur.Next;
+            }
+            return list;
         }
 
         private void form1_Paint(object sender, PaintEventArgs e) {
             this.g = this.CreateGraphics();
-            Point topLeft = new Point(Defines.MAP_X, Defines.MAP_Y);
-            Point mapCenter = new Point(topLeft.X + Defines.MAP_SIZE / 2, topLeft.Y + Defines.MAP_SIZE / 2);
-            Size mapSize = new Size(Defines.MAP_SIZE, Defines.MAP_SIZE);
-            g.DrawRectangle(Pens.Black, generateCenterPointRectangle(mapCenter, mapSize));
-            g.FillRectangle(Brushes.Red, generateCenterPointRectangle(mapCenter, new Size(Defines.ROBOT_SIZE, Defines.ROBOT_SIZE)));
-            printMap(g, mapCenter, mapSize);
-            // this.Cursor = new Cursor(Cursor.Current.Handle);
-            //Cursor.Position = new Point(Cursor.Position.X - 50, Cursor.Position.Y - 50);
-            //while (true) {
-            //    g.DrawRectangle(Pens.Black, generateCenterPointRectangle(Cursor.Position, new Size(3, 3)));
-            //}
+            printMap(g, Defines.mapCenter, Defines.mapSize);
         }
 
-        private void mouse_click(object sender, MouseEventArgs e)
-        {
-            this.g.DrawRectangle(Pens.Black, generateCenterPointRectangle(new Point(e.X,e.Y), new Size(3,3)));
+        private void mouse_click(object sender, MouseEventArgs e) {
+            Point mouseLocation = new Point(e.X, e.Y);
+            appendToMoveList(mouseLocation);
+            drawRobotPath(g);
         }
 
         private void button_click(object sender, EventArgs e)
         {
-            //Console.WriteLine(arr);
             serialPort1.Open();
-            arr = new int[numPoints];
+            List<int> list = new List<int>();
             bool toCont = true;
             bool recieveData = false;
             int i = 0;
@@ -86,7 +162,7 @@ namespace PCSideControl {
             {
                 try
                 {
-                    this.arr[i] = serialPort1.ReadChar();
+                    list.Add(serialPort1.ReadChar());
                     recieveData = true;
                     i++;
                     
@@ -97,15 +173,22 @@ namespace PCSideControl {
                 }
             }
             serialPort1.DiscardInBuffer();
-            foreach (int item in arr)
+            foreach (int item in list)
             {
                 Console.WriteLine(item);
             }
             serialPort1.Close();
             if (recieveData == true)
             {
-                drawPoints();
+                //drawPoints();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+            moveList.Clear();
+            moveList.AddLast(Defines.mapCenter);
+            clearMapArea(g, Defines.mapCenter, Defines.mapSize);
+            printMap(g, Defines.mapCenter, Defines.mapSize);
         }
     }
 }
