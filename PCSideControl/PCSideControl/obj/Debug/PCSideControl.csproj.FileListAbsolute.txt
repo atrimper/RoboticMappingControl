@@ -8,12 +8,3 @@ C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideCo
 C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.csproj.GenerateResource.Cache
 C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.exe
 C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\obj\Debug\PCSideControl.pdb
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe.config
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\obj\Debug\PCSideControl.exe
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\obj\Debug\PCSideControl.pdb
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\bin\Debug\PCSideControl.pdb
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\obj\Debug\PCSideControl.csprojResolveAssemblyReference.cache
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\obj\Debug\PCSideControl.Form1.resources
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\obj\Debug\PCSideControl.Properties.Resources.resources
-C:\Users\Shiv Chopra\Documents\curr\ece4180\Final\RoboticMappingControl\PCSideControl\PCSideControl\obj\Debug\PCSideControl.csproj.GenerateResource.Cache

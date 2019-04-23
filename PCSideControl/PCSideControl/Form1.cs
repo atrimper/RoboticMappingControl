@@ -11,8 +11,7 @@ using System.Windows.Forms;
 namespace PCSideControl {
     public partial class Form1 : Form {
         Graphics g;
-        int[] arr;
-        int numPoints = 10;
+        List<int> arr = new List<int>();
         double angle;
         public Form1() {
             InitializeComponent();
@@ -50,7 +49,7 @@ namespace PCSideControl {
 
         private void print_points(Point center)
         {
-            angle = 360 / numPoints;
+            //angle = 360 / numPoints;
 
         }
 
@@ -76,27 +75,51 @@ namespace PCSideControl {
 
         private void button_click(object sender, EventArgs e)
         {
+
             //Console.WriteLine(arr);
             serialPort1.Open();
-            arr = new int[numPoints];
             bool toCont = true;
             bool recieveData = false;
+            arr.Clear();
             int i = 0;
-            while(toCont == true)
+
+
+            while (toCont == true)
             {
+                System.Threading.Thread.Sleep(100);
                 try
                 {
-                    this.arr[i] = serialPort1.ReadChar();
-                    recieveData = true;
-                    i++;
-                    
+                    Console.WriteLine("YAHHHHHH");
+                    char c = (char)serialPort1.ReadChar();
+                    if (c == 's')
+                    {
+                        while (toCont == true)
+                        {
+                            System.Threading.Thread.Sleep(100);
+                            try
+                            {
+                                Console.WriteLine("YAHHHHHH");
+                                Console.WriteLine(i);
+                                arr.Add(serialPort1.ReadChar());
+                                Console.WriteLine("Data: {0}", arr[i]);
+                                recieveData = true;
+                                i++;
+
+                            }
+                            catch (System.IO.IOException)
+                            {
+                                toCont = false;
+                            }
+                        }
+                    }
                 }
                 catch (System.IO.IOException)
                 {
-                    toCont = false;
                 }
             }
+            
             serialPort1.DiscardInBuffer();
+            Console.WriteLine("HERE");
             foreach (int item in arr)
             {
                 Console.WriteLine(item);
@@ -104,8 +127,32 @@ namespace PCSideControl {
             serialPort1.Close();
             if (recieveData == true)
             {
-                drawPoints();
+                //drawPoints();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread.Sleep(3000);
+            serialPort1.Open();
+            //serialPort1.WriteLine("s");
+            System.Threading.Thread.Sleep(100);
+            serialPort1.Write(new char[] { 's' }, 0, 1);
+            int numToSend = 20;
+            serialPort1.Write(new char[] { (char)numToSend }, 0, 1);
+            System.Threading.Thread.Sleep(100);
+            for (int i = 2; i < 6; i++)
+            {
+                Console.WriteLine("Yahhhh {0}", );
+                serialPort1.Write(new char[] { (char)(i*2) }, 0, 1);
+                System.Threading.Thread.Sleep(100);
+            }
+            serialPort1.Close();
         }
     }
 }
