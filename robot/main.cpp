@@ -13,7 +13,7 @@ int* trajectory = new int[0];
 int main() {
     delete []trajectory;
     DataDistributor dataDistributor;
-    RobotController robotController(p21, p15, p16, p22, p18, p19, p13, p14);
+    RobotController robotController(p21, p15, p16, p22, p18, p19, p13, p14, p9, p10);
 
     while(1) {
         robotController.detectObstacles();
