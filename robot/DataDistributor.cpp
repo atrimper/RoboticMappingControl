@@ -1,47 +1,41 @@
 #include "DataDistributor.h"
 
-//int numTurns = 10;
-
 void DataDistributor::transmitObstacles() {
     led = 0b0010;
     while(!pb);
-    // transmit s, d_0, ..., d_259, e
-
-//    bool sentData = false;
-//    while(!sentData) {
-//        if(pc.writeable()) {
-//            for(int i = 0; i < numTurns; i++) {
-//                pc.putc(obstacles[i]);
-//            }
-//            sentData = true;
-//        }
-//    }
-
-    led = 0;
+    wait(1);
+    
+    bool sentData = false;
+    while(!sentData) {
+        if(pc.writeable()) {
+            pc.putc('s');
+            for(int i = 0; i < 360; i++) {
+                pc.putc(obstacles[i]);
+                wait(0.1);
+            }
+            sentData = true;
+        }
+    }
+    led = 0b0000;
 }
 
 void DataDistributor::receiveTrajectory() {
     led = 0b0100;
-    while(pc.getc() != 115);
+    while(pc.getc() != 's');
+    wait(0.1);
     trajectoryLength = pc.getc();
-    trajectory = new float[trajectoryLength];
-    // receive s, n, a_0, d_0, ..., a_n, d_n, e
+    wait(0.1);
+    trajectory = new int[trajectoryLength];
 
-//    bool readData = false;
-//    char temp;
-//    float* pair = new float[2];
-//    while(!readData) {
-//        if(pc.readable()) {
-//            temp = pc.getc();
-//            if (temp != 0xAA) {
-//                wait(0.1);
-//                pair[0] = pc.getc();
-//                pair[1] = pc.getc();
-//                readData = true;
-//            }
-//        }
-//    }
-//    return pair;
-
-    led = 0;
+    bool readData = false;
+    while(!readData) {
+        if(pc.readable()) {
+            for(int i = 0; i < trajectoryLength; i++) {
+                trajectory[i] = pc.getc();
+                wait(0.1);
+            }
+            readData = true;
+        }
+    }
+    led = 0b0000;
 }

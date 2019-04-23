@@ -6,9 +6,9 @@ Serial pc(USBTX, USBRX);
 BusOut led(LED1, LED2, LED3, LED4);
 DigitalIn pb(p23);
 
-float* obstacles = new float[360];
+int* obstacles = new int[360];
 int trajectoryLength = 0;
-float* trajectory = new float[0];
+int* trajectory = new int[0];
 
 int main() {
     delete []trajectory;

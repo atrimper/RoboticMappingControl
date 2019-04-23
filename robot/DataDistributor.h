@@ -11,16 +11,17 @@
 class DataDistributor {
     public:
         /**
-         * Transmits angle-distance pairs (angle in degrees, distance in inches)
-         * to a PC through serial communication. Sends a start and end character
-         * to signal start and end of data stream.
+         * Transmits distances (in inches) to a PC through serial communication.
+         * Distances are read from an array where each index corresponds to the
+         * angle the distance was read at. Sends a start character to signal
+         * start of data stream.
          */
         void transmitObstacles();
         
         /**
          * Receives angle-distance pairs from PC through serial communication.
-         * Returns a pointer array of these pairs that will later be sent to the
-         * robot as trajectories for movement.
+         * Stores the pairs into an array where even indices correspond to an
+         * angle and odd indices correspond to a distance.
          */
         void receiveTrajectory();
 };

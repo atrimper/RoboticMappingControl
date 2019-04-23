@@ -13,8 +13,8 @@ extern DigitalIn pb;
 /**
  * Data declarations. Initializations will be in main.cpp
  */
-extern float* obstacles;
+extern int* obstacles;
 extern int trajectoryLength;
-extern float* trajectory;
+extern int* trajectory;
 
 #endif /* GLOBALS_H */
