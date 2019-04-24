@@ -1,1 +1,2 @@
 C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\gui\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe.config
+C:\Users\Andrew\Documents\Georgia Tech\2018\Spring\ECE4180\finalProject\PCSideControl\PCSideControl\bin\Debug\PCSideControl.exe.config

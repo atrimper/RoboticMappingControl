@@ -30,8 +30,8 @@ namespace PCSideControl {
         }
 
         private Point generateMapPoint(double distance, double angle) {
-            int x = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Cos(angle * Math.PI / 180));
-            int y = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Sin(angle * Math.PI / 180));
+            int x = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Cos((angle - 90) * Math.PI / 180));
+            int y = (int) (distance * Defines.DISTANCE_TO_PIXELS * Math.Sin((angle - 90) * Math.PI / 180));
             return new Point(x, y);
         }
 
@@ -207,6 +207,7 @@ namespace PCSideControl {
             serialPort1.Close();
             if (recieveData == true)
             {
+                clearMapArea(g, Defines.mapCenter, Defines.mapSize);
                 printMap(g, Defines.mapCenter, Defines.mapSize);
             }
         }
@@ -238,14 +239,24 @@ namespace PCSideControl {
             LinkedListNode<Tuple<double, double>> curr = sendList.First;
             while(curr != null)
             {
-                Console.WriteLine(curr.Value.Item1);
-                Console.WriteLine(((char)(int)curr.Value.Item1) & 0x0F);
-                Console.WriteLine(((char)(int)curr.Value.Item1) & 0xF0);
-                serialPort1.Write(new char[] { (char)(((int)curr.Value.Item1) & 0x0F) }, 0, 1);
+                byte anglel = (byte) (((int) curr.Value.Item1) & 0x000000FF);
+                byte angleh = (byte) (((int) curr.Value.Item1) & 0x0000FF00);
+                byte distancel = (byte) (((int) curr.Value.Item2) & 0x000000FF);
+                byte distanceh = (byte) (((int) curr.Value.Item2) & 0x0000FF00);
+
+                Console.WriteLine("Angle:\n" + curr.Value.Item1);
+                Console.WriteLine(anglel);
+                Console.WriteLine(angleh);
+                Console.WriteLine("Distance\n:" + curr.Value.Item2);
+                Console.WriteLine(distancel);
+                Console.WriteLine(distanceh);
+                serialPort1.Write(new byte[] { anglel }, 0, 1);
                 System.Threading.Thread.Sleep(100);
-                serialPort1.Write(new char[] { (char)(((int)curr.Value.Item1) & 0xF0) }, 0, 1);
+                serialPort1.Write(new byte[] { angleh }, 0, 1);
                 System.Threading.Thread.Sleep(100);
-                serialPort1.Write(new char[] { (char)((int)curr.Value.Item2) }, 0, 1);
+                serialPort1.Write(new byte[] { distancel }, 0, 1);
+                System.Threading.Thread.Sleep(100);
+                serialPort1.Write(new byte[] { distanceh }, 0, 1);
                 System.Threading.Thread.Sleep(100);
                 curr = curr.Next;
             }
