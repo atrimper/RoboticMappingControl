@@ -1,7 +1,7 @@
 #ifndef DATA_DISTRIBUTOR_H
 #define DATA_DISTRIBUTOR_H
 
-#include "mbed.h"
+#include "globals.h"
 
 /**
  * Distributes data sent over serial communication. This includes data sent from
@@ -11,24 +11,19 @@
 class DataDistributor {
     public:
         /**
-         * Sends angle-distance pairs (angle in degrees, distance in inches) to 
-         * a PC through serial communication. Sends a start and end character to
-         * signal start and end of data stream.
-         *
-         * @param obstacles angle-distance pairs
+         * Transmits distances (in inches) to a PC through serial communication.
+         * Distances are read from an array where each index corresponds to the
+         * angle the distance was read at. Sends a start character to signal
+         * start of data stream.
          */
-        void sendObstacles(float* obstacles);
-        // TODO deallocate obstacles
+        void transmitObstacles();
         
         /**
          * Receives angle-distance pairs from PC through serial communication.
-         * Returns a pointer array of these pairs that will later be sent to the
-         * robot as trajectories for movement.
-         *
-         * @return angle-distance pairs
+         * Stores the pairs into an array where even indices correspond to an
+         * angle and odd indices correspond to a distance.
          */
-        float* receiveTrajectory();
-        // TODO allocate new trajectories
+        void receiveTrajectory();
 };
 
 #endif /* DATA_DISTRIBUTOR_H */
