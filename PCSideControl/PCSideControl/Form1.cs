@@ -20,6 +20,7 @@ namespace PCSideControl {
             InitializeComponent();
             this.Width = 750;
             this.Height = 500;
+            this.g = this.CreateGraphics();
             moveList = new LinkedList<Point>();
             moveList.AddLast(Defines.mapCenter);
         }
@@ -143,7 +144,6 @@ namespace PCSideControl {
         }
 
         private void form1_Paint(object sender, PaintEventArgs e) {
-            this.g = this.CreateGraphics();
             printMap(g, Defines.mapCenter, Defines.mapSize);
         }
 
@@ -178,7 +178,7 @@ namespace PCSideControl {
                             System.Threading.Thread.Sleep(100);
                             try
                             {
-                                Console.WriteLine("YAHHHHHH");
+                                Console.WriteLine("YANNNNNNN");
                                 Console.WriteLine(i);
                                 arr.Add(serialPort1.ReadChar());
                                 Console.WriteLine("Data: {0}", arr[i]);
@@ -238,6 +238,9 @@ namespace PCSideControl {
             LinkedListNode<Tuple<double, double>> curr = sendList.First;
             while(curr != null)
             {
+                Console.WriteLine(curr.Value.Item1);
+                Console.WriteLine(((char)(int)curr.Value.Item1) & 0x0F);
+                Console.WriteLine(((char)(int)curr.Value.Item1) & 0xF0);
                 serialPort1.Write(new char[] { (char)(((int)curr.Value.Item1) & 0x0F) }, 0, 1);
                 System.Threading.Thread.Sleep(100);
                 serialPort1.Write(new char[] { (char)(((int)curr.Value.Item1) & 0xF0) }, 0, 1);
