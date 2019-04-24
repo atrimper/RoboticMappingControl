@@ -12,7 +12,7 @@ namespace PCSideControl {
     public partial class Form1 : Form {
         Graphics g;
         List<int> arr = new List<int>();
-
+        String comPort;
         double angle;
         LinkedList<Point> moveList;
 
@@ -261,6 +261,23 @@ namespace PCSideControl {
                 curr = curr.Next;
             }
             serialPort1.Close();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comPort = comboBox1.Text;
+            serialPort1.PortName = comPort;
+            Console.WriteLine(serialPort1.PortName);
+        }
+
+        private void comboBox1_DropDown(object sender, EventArgs e)
+        {
+            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+            comboBox1.Items.Clear();
+            foreach (string port in ports)
+            {
+                comboBox1.Items.Add(port);
+            }
         }
     }
 }
