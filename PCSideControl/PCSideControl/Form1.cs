@@ -64,8 +64,8 @@ namespace PCSideControl {
 
         private List<Tuple<double, double>> readMapData() {
             List<Tuple<double, double>> list = new List<Tuple<double, double>>();
-            for(int i = 0; i < 360; i++) {
-                list.Add(new Tuple<double, double>(11, i));
+            for(int i = 0; i < arr.Count; i++) {
+                list.Add(new Tuple<double, double>(arr[i],i));
             }
             return list;
         }
@@ -207,7 +207,7 @@ namespace PCSideControl {
             serialPort1.Close();
             if (recieveData == true)
             {
-                //drawPoints();
+                printMap(g, Defines.mapCenter, Defines.mapSize);
             }
         }
 
