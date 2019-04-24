@@ -10,7 +10,11 @@ void DataDistributor::transmitObstacles() {
         if(pc.writeable()) {
             pc.putc('s');
             for(int i = 0; i < 360; i++) {
-                pc.putc(obstacles[i]);
+                if(obstacles[i] >= 120) {
+                    pc.putc(120);
+                } else {
+                    pc.putc(obstacles[i]);
+                }
                 wait(0.1);
             }
             sentData = true;
@@ -26,13 +30,22 @@ void DataDistributor::receiveTrajectory() {
     trajectoryLength = pc.getc();
     wait(0.1);
     trajectory = new int[trajectoryLength];
-
+    
     bool readData = false;
     while(!readData) {
         if(pc.readable()) {
-            for(int i = 0; i < trajectoryLength; i++) {
-                trajectory[i] = pc.getc();
+            for(int i = 0; i < trajectoryLength * 2; i += 2) {
+                uint8_t aLow = pc.getc();
                 wait(0.1);
+                uint8_t aHigh = pc.getc();
+                wait(0.1);
+                uint8_t dLow = pc.getc();
+                wait(0.1);
+                uint8_t dHigh = pc.getc();
+                uint16_t angle = ((uint16_t)aHigh << 8) | aLow;
+                uint16_t dist = ((uint16_t)dHigh << 8) | dLow;
+                trajectory[i] = (int)angle;
+                trajectory[i + 1] = (int)dist;
             }
             readData = true;
         }
