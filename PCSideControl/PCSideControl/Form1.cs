@@ -12,13 +12,13 @@ namespace PCSideControl {
     public partial class Form1 : Form {
         Graphics g;
         List<int> arr = new List<int>();
-        String comPort;
+        String comPort = "";
         double angle;
         LinkedList<Point> moveList;
 
         public Form1() {
             InitializeComponent();
-            this.Width = 750;
+            this.Width = 400;
             this.Height = 500;
             this.g = this.CreateGraphics();
             moveList = new LinkedList<Point>();
@@ -157,6 +157,11 @@ namespace PCSideControl {
         {
 
             //Console.WriteLine(arr);
+            if (comPort == "")
+            {
+                Console.WriteLine("No com port");
+                return;
+            }
             serialPort1.Open();
             bool toCont = true;
             bool recieveData = false;
@@ -227,6 +232,12 @@ namespace PCSideControl {
 
         private void button3_Click(object sender, EventArgs e)
         {
+
+            if (comPort == "")
+            {
+                Console.WriteLine("No com port");
+                return;
+            }
             LinkedList<Tuple<double, double>> sendList = moveListToVectorList();
             System.Threading.Thread.Sleep(1000);
             serialPort1.Open();
