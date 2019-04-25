@@ -5,10 +5,12 @@
 #include "Motor.h"
 #include "Encoder.h"
 #include "LSM9DS1.h"
-#include "XNucleo53L0A1.h"
 
 #define COUNTPERIN 75.029 ///< Encoder counts 192 every 65 mm of wheel rotation
-#define COUNTPERDEG 1.21 ///< Encoder counts 2.42 every 1 deg of body rotation
+#define ROTERRI 0.730 ///< 90 commanded rotation overshoot compensation
+#define ROTERRII 0.770 ///< 180 commanded rotation overshoot compensation
+#define ROTERRIII 0.810 ///< 270, 360 commanded rotation overshoot compensation
+#define MMTOIN 0.0393701 ///< Metric to emperical length conversion
 
 /**
  * Robot Controller class.
@@ -51,10 +53,11 @@ class RobotController {
     private:
         Motor leftWheel;
         Motor rightWheel;
-        Encoder leftEncoder;
-        Encoder rightEncoder;
+        Encoder _leftEncoder;
+        Encoder _rightEncoder;
         LSM9DS1 imu;
         Timer t;
+        float yaw;
         float w1;
         float w2;
         float t1;

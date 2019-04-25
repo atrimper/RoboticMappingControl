@@ -29,7 +29,7 @@ void DataDistributor::receiveTrajectory() {
     wait(0.1);
     trajectoryLength = pc.getc();
     wait(0.1);
-    trajectory = new int[trajectoryLength];
+    trajectory = new int[trajectoryLength * 2];
     
     bool readData = false;
     while(!readData) {

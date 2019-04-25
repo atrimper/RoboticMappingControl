@@ -2,6 +2,7 @@
 #define GLOBALS_H
 
 #include "mbed.h"
+#include "rtos.h"
 
 /**
  * Hardware declarations. Initializations will be in main.cpp
@@ -16,5 +17,7 @@ extern DigitalIn pb;
 extern int* obstacles;
 extern int trajectoryLength;
 extern int* trajectory;
+extern uint32_t lidarDistance;
+extern bool useImu;
 
 #endif /* GLOBALS_H */
