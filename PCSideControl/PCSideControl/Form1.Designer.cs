@@ -50,11 +50,11 @@
             // button2
             // 
             this.button2.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.button2.Location = new System.Drawing.Point(199, 406);
+            this.button2.Location = new System.Drawing.Point(190, 405);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(91, 47);
+            this.button2.Size = new System.Drawing.Size(104, 48);
             this.button2.TabIndex = 1;
-            this.button2.Text = "Clear Path List";
+            this.button2.Text = "Clear Current Path";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
