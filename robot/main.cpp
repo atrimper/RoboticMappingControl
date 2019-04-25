@@ -19,9 +19,9 @@ void getLidarDistance() {
     XNucleo53L0A1* lidarBoard = XNucleo53L0A1::instance(lidarDevice, A2, D8, D2);
     DigitalOut _lidarShdn(p26);
     _lidarShdn = 0;
-    wait(0.1);
+    Thread::wait(100);
     _lidarShdn = 1;
-    wait(0.1);
+    Thread::wait(100);
     int status = lidarBoard->init_board();
     while (status) {
         status = lidarBoard->init_board();

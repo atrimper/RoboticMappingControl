@@ -11,7 +11,7 @@ void DataDistributor::transmitObstacles() {
             pc.putc('s');
             for(int i = 0; i < 360; i++) {
                 pc.putc(obstacles[i]);
-                wait(0.1);
+                wait(0.02);
             }
             sentData = true;
         }
