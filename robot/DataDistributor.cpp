@@ -10,11 +10,7 @@ void DataDistributor::transmitObstacles() {
         if(pc.writeable()) {
             pc.putc('s');
             for(int i = 0; i < 360; i++) {
-                if(obstacles[i] >= 120) {
-                    pc.putc(120);
-                } else {
-                    pc.putc(obstacles[i]);
-                }
+                pc.putc(obstacles[i]);
                 wait(0.1);
             }
             sentData = true;

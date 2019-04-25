@@ -35,7 +35,8 @@ void RobotController::detectObstacles() {
         while((_leftEncoder.read() < 1) && (_rightEncoder.read() < 1));
         leftWheel.speed(0);
         rightWheel.speed(0);
-        obstacles[i] = (int)(lidarDistance*MMTOIN);
+        obstacles[i] = (int)(lidarDistance / 10);
+        pc.printf("Index %d, %d\n", i, lidarDistance);
     }
     led = 0;
 }
@@ -62,7 +63,7 @@ void RobotController::followTrajectory() {
         t.start();
         leftWheel.speed(0.2);
         rightWheel.speed(-0.2);
-        while(yaw < angle) {
+        while(yaw > -angle) {
             yaw = yaw + (((w2+w1)/2.0)*(t2-t1));
             while(!imu.gyroAvailable());
             imu.readGyro();
@@ -77,7 +78,7 @@ void RobotController::followTrajectory() {
         useImu = false;
         _leftEncoder.reset();
         _rightEncoder.reset();
-        int distance = (int)(trajectory[i + 1]*COUNTPERIN);
+        int distance = (int)(trajectory[i + 1]*COUNTPERCM);
         leftWheel.speed(0.2);
         rightWheel.speed(0.2);
         while((_leftEncoder.read() < distance) && (_rightEncoder.read() < distance));
