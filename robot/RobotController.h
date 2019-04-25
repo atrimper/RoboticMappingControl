@@ -6,7 +6,7 @@
 #include "Encoder.h"
 #include "LSM9DS1.h"
 
-#define COUNTPERIN 75.029 ///< Encoder counts 192 every 65 mm of wheel rotation
+#define COUNTPERCM 29.538 ///< Encoder counts 192 every 65 mm of wheel rotation
 #define ROTERRI 0.730 ///< 90 commanded rotation overshoot compensation
 #define ROTERRII 0.770 ///< 180 commanded rotation overshoot compensation
 #define ROTERRIII 0.810 ///< 270, 360 commanded rotation overshoot compensation
