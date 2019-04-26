@@ -12,7 +12,7 @@ int* obstacles = new int[360];
 int trajectoryLength = 0;
 int* trajectory = new int[0];
 uint32_t lidarDistance = 0;
-bool useImu = false;
+volatile bool useImu = false;
 
 void getLidarDistance() {
     DevI2C* lidarDevice = new DevI2C(p28, p27);

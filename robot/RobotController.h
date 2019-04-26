@@ -6,11 +6,11 @@
 #include "Encoder.h"
 #include "LSM9DS1.h"
 
-#define COUNTPERCM 29.538 ///< Encoder counts 192 every 65 mm of wheel rotation
+#define COUNTTOMM 9.846 ///< Encoder count to distance conversion
 #define ROTERRI 0.730 ///< 90 commanded rotation overshoot compensation
 #define ROTERRII 0.770 ///< 180 commanded rotation overshoot compensation
 #define ROTERRIII 0.810 ///< 270, 360 commanded rotation overshoot compensation
-#define MMTOIN 0.0393701 ///< Metric to emperical length conversion
+#define MMTOCM 0.10 ///< Metric to emperical length conversion
 
 /**
  * Robot Controller class.

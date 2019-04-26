@@ -18,6 +18,6 @@ extern int* obstacles;
 extern int trajectoryLength;
 extern int* trajectory;
 extern uint32_t lidarDistance;
-extern bool useImu;
+extern volatile bool useImu;
 
 #endif /* GLOBALS_H */
